@@ -12,4 +12,16 @@ class Bullet(Sprite):
 
         # 创建一个子弹模型
         self.rect = pygame.Rect(0,0,self.setting.bullet_width,self.setting.bullet_height)
-        # self.
+        self.rect.midtop = ai_game.dog.rect.midtop
+
+        self.y = float(self.rect.y)
+
+    def update(self, *args, **kwargs) -> None:
+        self.y -= self.setting.bullet_speed
+        self.rect.y = self.y
+
+    def draw_bullet(self):
+        """显示子弹"""
+        # 画pygame子弹形状用pygame.draw
+        pygame.draw.rect(self.screen, self.color, self.rect)
+

@@ -11,11 +11,11 @@ class Dog:
         self.screen = ai_game.screen
         self.screen_rect = ai_game.screen.get_rect()  #
 
-        # 导入小狗图片、设置成矩形
-        self.image = pygame.image.load('image/ship.bmp')
+        # 导入小狗图片、设置成矩形 self.rect 才是主角 60*48
+        self.image = pygame.image.load('image/dog.bmp')
         self.rect = self.image.get_rect()  # 小狗照片
 
-        # 将图片放到指定位置
+        # 将主角放到指定初始位置
         self.rect.midbottom = self.screen_rect.midbottom  # 将小狗照片原来的midbottom位置  改为 在当前屏幕中的位置
 
         # 允许小狗移动小数值的像素
