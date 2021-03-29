@@ -1,0 +1,34 @@
+下载git后
+1. 设置git上的ssh秘钥
+在git bash here中输入：
+ssh-keygen -t rsa -C "303295018@qq.com"
+
+2. 判断ssh是否配置好
+ssh -T git@github.com
+
+3.输入账号
+git config --global user.name "breimanbzx"
+git config --global user.email "303295018@qq.com"
+
+
+4.第一次将本地代码上传到git仓库
+打开你想要上传项目的位置，右键点git bash here输入
+git init   # 在本地代码里创建本地git
+git add .   # 把所有文件都放到本地git
+git commit -m "first"  # 代码提交到本地git
+git remote add origin git@github.com:breimanbzx/TheWayOfImage.git   # 关联远程git仓库：网址是你指定的仓库；origin 为远程库名字可任意取
+git pull origin main  # 上传前先把原始版本拉下来
+git push -u origin main  # 上传
+
+
+5. 异地克隆，修改上传
+（1）第一次clone：打开你想要储存项目的位置，右键点git bash here输入
+git clone git@github.com:breimanbzx/TheWayOfImage.git
+（2）第二次写代码之前先拉一下，养成习惯，以免别人修改
+git pull origin main
+（3）代码写好后，add+提交+上传
+git add .
+git commit -m "修改git文档"
+git push origin main
+
+
