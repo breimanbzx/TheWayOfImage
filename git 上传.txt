@@ -1,0 +1,20 @@
+1. 设置git上的ssh秘钥
+在git bash here中输入：
+ssh-keygen -t rsa -C "303295018@qq.com"
+
+2. 判断ssh是否配置好
+ssh -T git@github.com
+
+3.输入账号
+git config --global user.name "breimanbzx"
+git config --global user.email "303295018@qq.com"
+
+4.把本地文件夹做成仓库
+git init   # 在本地代码里创建git中介
+git add .   # 把所有文件都放到隐藏文件git里
+git commit -m "first"  # 代码提交到git
+git remote add origin git@github.com:breimanbzx/riry_fight.git   # 连接云端的git仓库：网址是你指定的仓库
+# 连接成功后，上传
+git push -u origin master
+# 上传前先把原始版本拉下来
+git pull --rebase origin master
