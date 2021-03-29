@@ -13,8 +13,11 @@ git config --global user.email "303295018@qq.com"
 git init   # 在本地代码里创建git中介
 git add .   # 把所有文件都放到隐藏文件git里
 git commit -m "first"  # 代码提交到git
-git remote add origin git@github.com:breimanbzx/riry_fight.git   # 连接云端的git仓库：网址是你指定的仓库
-# 连接成功后，上传
+# 关联远程库：origin 为远程库名字
+git remote add origin git@github.com:breimanbzx/TheWayOfImage.git   # 连接云端的git仓库：网址是你指定的仓库
+# 连接成功后，上传（第一次-u）
 git push -u origin master
+# 之后更新
+git push origin master
 # 上传前先把原始版本拉下来
 git pull --rebase origin master
