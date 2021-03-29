@@ -12,8 +12,8 @@ class Dog:
         self.screen_rect = ai_game.screen.get_rect()  #
 
         # 导入小狗图片、设置成矩形 self.rect 才是主角 60*48
-        self.image = pygame.image.load('image/dog.bmp')
-        self.rect = self.image.get_rect()  # 小狗照片
+
+        self.rect = self.setting.dog_image.get_rect()  # 小狗照片
 
         # 将主角放到指定初始位置
         self.rect.midbottom = self.screen_rect.midbottom  # 将小狗照片原来的midbottom位置  改为 在当前屏幕中的位置
@@ -45,4 +45,4 @@ class Dog:
 
     def blitme(self):
         """绘制狗到屏幕上"""
-        self.screen.blit(self.image, self.rect)  # 位块传输
+        self.screen.blit(self.setting.dog_image, self.rect)  # 位块传输

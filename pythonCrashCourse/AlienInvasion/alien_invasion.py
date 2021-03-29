@@ -1,6 +1,7 @@
 import sys
 import pygame
 from pythonCrashCourse.AlienInvasion import setting, dog, bullet, alien
+import time
 
 
 # 1. 创建空白屏幕:set_mode访问屏幕模式（fill/get_rect访问位置/）设置尺寸 、 事件循环
@@ -28,6 +29,7 @@ class AlienInvasion:
         self.setting = setting.Setting()
         self.screen = pygame.display.set_mode((self.setting.screen_width, self.setting.screen_height))
         pygame.display.set_caption(self.setting.screen_name)
+
         # 创建小狗的类
         # self指AlienInvasion类自身，由于狗类中会用到屏幕中的参数，因此需要传入self
         # 也可以简单点，逐个传入AlienInvasion类中的变量
@@ -43,9 +45,9 @@ class AlienInvasion:
         ali = alien.Alien(self)
         ali_width = ali.rect.width
         ali_height = ali.rect.height
-        # 外星人间距
-        num_alien_x = self.setting.screen_width // (self.setting.alien_interval*ali_width)
-        num_alien_y = self.setting.screen_height // (self.setting.alien_interval*ali_height)
+        # 外星人横向纵向个数
+        num_alien_x = self.setting.screen_width // (self.setting.alien_interval*ali_width) - 2
+        num_alien_y = (self.setting.screen_height // (self.setting.alien_interval*ali_height))*3
         for alien_y_NO in range(num_alien_y):
             for alien_x_NO in range(num_alien_x):
                 # 循环创建多个新外星人，并修改每个外星人的x，使其平铺开来
@@ -66,8 +68,8 @@ class AlienInvasion:
         while True:
             self._check_events()
             self.dog.update()
-            self._check_bullet()
-            self._check_alien()
+            self._update_bullet()
+            self._update_alien()
             self._update_screen()
 
     def _check_events(self):
@@ -95,8 +97,13 @@ class AlienInvasion:
             self.dog.move_down = True
         elif event.key == pygame.K_q:
             sys.exit()
-        elif event.key == pygame.K_SPACE:
-            self._fire_bullet()
+        # Z小炮
+        elif event.key == pygame.K_z:
+            self._fire_bullet(1)
+        # X大炮
+        elif event.key == pygame.K_x:
+            if len(self.bullet) == 0:
+                self._fire_bullet(2)
 
     def _check_keyup_events(self, event):
         if event.key == pygame.K_RIGHT:
@@ -108,32 +115,50 @@ class AlienInvasion:
         elif event.key == pygame.K_DOWN:
             self.dog.move_down = False
 
-    def _fire_bullet(self):
-        new_bullet = bullet.Bullet(self)
+    def _fire_bullet(self, bullet_shape):
+        new_bullet = bullet.Bullet(self, bullet_shape)
         # 一个子弹类表示一个子弹，按一下空格就添加一个子弹类到精灵编组中去
         self.bullet.add(new_bullet)
 
-    def _check_bullet(self):
+    def _update_bullet(self):
         self.bullet.update()
         # 删除消失的子弹
         for bu in self.bullet.copy():
             if bu.rect.bottom <= 0:
                 self.bullet.remove(bu)
+        # 统计一共射出的子弹
+
+        collisions = pygame.sprite.groupcollide(self.bullet, self.alien, True, True)
         # print(len(self.bullet))
 
-    def _check_alien(self):
+    def _update_alien(self):
+        """检查是否有外星人触碰边缘"""
+        self._check_fleet_edge()
         self.alien.update()
+
+    def _check_fleet_edge(self):
+        """有外星人碰到边缘时，所有外星人都下移，且改变方向 """
+        for ali in self.alien.sprites():
+            if ali.check_edge():
+                self._change_fleet_direction()
+                break  # 跳出循环：因为只要有一个外星人碰到边界就下移一次，然后进入下面的水平移动
+
+    def _change_fleet_direction(self):
+        """如果有触碰，循环所有外星人，全部下移，之后改变x轴方向"""
+        for ali2 in self.alien.sprites():
+            ali2.rect.y += self.setting.fleet_drop_speed
+        self.setting.fleet_direction *= -1
 
     def _update_screen(self):
         # 游戏中进行屏幕设置：填充颜色
-        self.screen.fill(self.setting.bg_color)
+        # self.screen.fill(self.setting.bg_color)
+        # 显示背景图片
+        self.screen.blit(self.setting.bg_image, (0, 0))  # 对齐的坐标
         # 绘制狗到屏幕上
         self.dog.blitme()
         for bu in self.bullet.sprites():
             bu.draw_bullet()
-
         self.alien.draw(self.screen)
-
         # 显示屏幕
         pygame.display.flip()
 
