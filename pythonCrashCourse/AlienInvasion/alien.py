@@ -19,8 +19,9 @@ class Alien(Sprite):
         # 精确位置
         self.x = float(self.rect.x)
 
-    # def check_edge(self):
-        
+    def check_edge(self):
+        if self.rect.x >= self.screen.width or self.rect.x <= 0:
+            self.rect.y += self.setting.fleet_drop_speed
 
     def update(self, *args, **kwargs) -> None:
         self.x += self.setting.alien_speed
