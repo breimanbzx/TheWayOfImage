@@ -126,8 +126,6 @@ class AlienInvasion:
         for bu in self.bullet.copy():
             if bu.rect.bottom <= 0:
                 self.bullet.remove(bu)
-        # 统计一共射出的子弹
-
         collisions = pygame.sprite.groupcollide(self.bullet, self.alien, True, True)
         # print(len(self.bullet))
 

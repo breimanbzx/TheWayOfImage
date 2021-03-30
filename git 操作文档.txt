@@ -16,7 +16,8 @@ git config --global user.email "303295018@qq.com"
 git init   # 在本地代码里创建本地git
 git add .   # 把所有文件都放到本地git
 git commit -m "first"  # 代码提交到本地git
-git remote add origin git@github.com:breimanbzx/TheWayOfImage.git   # 关联远程git仓库：网址是你指定的仓库；origin 为远程库名字可任意取
+# 同一台电脑上不同项目想放不同仓库里用remote add origin123.. 即可
+git remote add origin git@github.com:breimanbzx/TheWayOfImage.git   # 远程遥控git仓库：网址是你指定的仓库；origin 为远程库名字可任意取
 git pull origin main  # 上传前先把原始版本拉下来
 git push -u origin main  # 上传
 
