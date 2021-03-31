@@ -46,3 +46,9 @@ class Dog:
     def blitme(self):
         """绘制狗到屏幕上"""
         self.screen.blit(self.setting.dog_image, self.rect)  # 位块传输
+
+    def center_dog(self):
+        self.rect.midbottom = self.screen_rect.midbottom
+        self.x = float(self.rect.x)
+        self.y = float(self.rect.y)
+
