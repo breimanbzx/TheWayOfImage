@@ -61,7 +61,7 @@ class AlienInvasion:
         ali_height = ali.rect.height
         # 外星人横向纵向个数
         num_alien_x = self.setting.screen_width // (self.setting.alien_interval * ali_width) - 2
-        num_alien_y = (self.setting.screen_height // (self.setting.alien_interval * ali_height))
+        num_alien_y = 3  # (self.setting.screen_height // (self.setting.alien_interval * ali_height))
         for alien_y_NO in range(num_alien_y):
             for alien_x_NO in range(num_alien_x):
                 # 循环创建多个新外星人，并修改每个外星人的x，使其平铺开来

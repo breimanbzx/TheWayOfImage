@@ -36,4 +36,9 @@ git config --global user.name "breimanbzx"
 git config --global user.email "303295018@qq.com"
 
 
+三、其它备用命令
+
+git checkout 分支名   # 切换分支
+git fetch origin    # 更新本地仓库
+git merge  分支名     # 将拉去到的代码合并到本地
 

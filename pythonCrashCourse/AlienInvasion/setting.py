@@ -17,7 +17,8 @@ class Setting:
         self.bg_color = (230, 230, 230)
 
         # 狗
-        self.dog_image = pygame.image.load('image/dog.bmp')  # 94*100
+        self.dog_image = pygame.image.load('image/dog.bmp')  # 100*100
+        self.dog_die_image = pygame.image.load('image/die.bmp')  # 100*100
         self.dog_limit = 1
 
         # 子弹设置
@@ -36,20 +37,20 @@ class Setting:
         self.fleet_direction = 1  # 移动方向 1右 -1左
 
         # 加快速度的节奏
-        self.speedup_scale = 1.3
+        self.speedup_scale = 4
 
         # 动态变量设置（每次重新开始都要初始化的部分）
         self.init_dynamic_setting()
 
     def init_dynamic_setting(self):
         # 速度组
-        self.dog_speed = 0.6
+        self.dog_speed = 1
         self.bullet_speed = 0.5
-        self.alien_speed = 0.3
+        self.alien_speed = 1
 
     def increase_speed(self):
-        self.dog_speed *= self.speedup_scale
-        self.bullet_speed *= self.speedup_scale
-        self.alien_speed *= self.speedup_scale
+        self.dog_speed += self.speedup_scale/2
+        self.bullet_speed += self.speedup_scale/2
+        self.alien_speed += self.speedup_scale
 
 
