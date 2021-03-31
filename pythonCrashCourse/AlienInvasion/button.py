@@ -10,7 +10,7 @@ class Button:
         self.height = 50
         self.button_color = (0, 255, 0)
         self.text_color = (255, 255, 255)
-        self.font = pygame.font.SysFont(None, 48)  # 创建文本对象
+        self.font = pygame.font.SysFont('SimHei', 24)  # 创建文本对象
         # 构造按钮方块
         self.rect = pygame.Rect(0, 0, self.width, self.height)
         self.rect.center = self.screen_rect.center

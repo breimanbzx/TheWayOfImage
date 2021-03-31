@@ -1,3 +1,5 @@
+import json
+
 # 列表
 list_a = [1, 2, 3, 4, 5, 4, 4, 4, 4, 4, 4, 4, 4, 4]
 
@@ -39,8 +41,9 @@ with open('txt.txt','w') as file:
 with open('txt.txt','a') as file1:
     file1.write('123456789')
 
-
-
+#
+with open('124.json') as file:
+    num = json.load(file)
 
 
 

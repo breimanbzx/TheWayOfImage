@@ -19,7 +19,7 @@ import time
 # 当配给的飞船用完之后，游戏将结束。
 
 # 关卡设计：每关之间停顿5秒，显示击杀数据
-# 子弹：连续
+# 子弹：连续、频率可变
 # 背景：缓慢向下移动
 # 第一关：完虐翘脚狗： 子弹：小/频率低        敌人速度：慢   图片：全换
 # 第二关：狗队也不怕： 子弹：小/频率高        敌人速度：中
@@ -40,6 +40,7 @@ class AlienInvasion:
         pygame.display.set_caption(self.setting.screen_name)
         # 统计信息
         self.stats = game_stats.GameStats(self)
+        # 游戏剧情
 
         # 创建小狗的类
         # self指AlienInvasion类自身，由于狗类中会用到屏幕中的参数，因此需要传入self
@@ -51,7 +52,7 @@ class AlienInvasion:
         self.alien = pygame.sprite.Group()
         self._create_fleet()
         # 创建play按钮
-        self.play_button = button.Button(self, 'play')
+        self.play_button = button.Button(self, '点击开始游戏')
 
     def _create_fleet(self):
         """创建一群外星人"""
@@ -59,8 +60,8 @@ class AlienInvasion:
         ali_width = ali.rect.width
         ali_height = ali.rect.height
         # 外星人横向纵向个数
-        num_alien_x = self.setting.screen_width // (self.setting.alien_interval*ali_width) - 2
-        num_alien_y = (self.setting.screen_height // (self.setting.alien_interval*ali_height))
+        num_alien_x = self.setting.screen_width // (self.setting.alien_interval * ali_width) - 2
+        num_alien_y = (self.setting.screen_height // (self.setting.alien_interval * ali_height))
         for alien_y_NO in range(num_alien_y):
             for alien_x_NO in range(num_alien_x):
                 # 循环创建多个新外星人，并修改每个外星人的x，使其平铺开来
@@ -108,11 +109,22 @@ class AlienInvasion:
                 mouse_pos = pygame.mouse.get_pos()
                 # 如果在按钮 碰撞点上
                 self._check_play_button(mouse_pos)
-    
+
     def _check_play_button(self, mouse_pos):
-        # 如果在按钮 碰撞点上
-        if self.play_button.rect.collidepoint(mouse_pos):
+        # 如果在按钮 碰撞点 上, 且当前游戏未开始
+        if self.play_button.rect.collidepoint(mouse_pos) and not self.stats.game_active:
+            # 如果不重置生命，那么生命一直小于0，游戏就重新开始不了
+            self.stats.reset_stats()
+            # 重置速度
+            self.setting.init_dynamic_setting()
             self.stats.game_active = True
+            # 游戏重新开始后，清空子弹和外星人、创建新外星人并居中
+            self.bullet.empty()
+            self.alien.empty()
+            self._create_fleet()
+            self.dog.center_dog()
+            # 隐藏鼠标光标
+            pygame.mouse.set_visible(False)
 
     def _check_keydown_events(self, event):
         if event.key == pygame.K_RIGHT:
@@ -164,7 +176,10 @@ class AlienInvasion:
         # 如果外星人打完了，进入下一关，换敌人、背景图片
         if not self.alien:
             self.bullet.empty()
+            # 添加 第几关 参数
             self._create_fleet()
+
+            self.setting.increase_speed()
         # print(len(self.bullet))
 
     # 4. 外星人移动控制、外星人与狗交互
@@ -172,7 +187,7 @@ class AlienInvasion:
         """检查是否有外星人触碰边缘、撞到狗"""
         self._check_fleet_edge()
         self.alien.update()
-        if pygame.sprite.spritecollideany(self.dog,self.alien):
+        if pygame.sprite.spritecollideany(self.dog, self.alien):
             self._dog_die()
         self._check_alien_bottom()
 
@@ -195,6 +210,7 @@ class AlienInvasion:
             time.sleep(0.5)
         else:
             self.stats.game_active = False
+            pygame.mouse.set_visible(True)
             print('game over')
 
     def _check_fleet_edge(self):
@@ -221,6 +237,7 @@ class AlienInvasion:
         for bu in self.bullet.sprites():
             bu.draw_bullet()
         self.alien.draw(self.screen)
+        # 如果游戏结束，画上按钮
         if not self.stats.game_active:
             self.play_button.draw_button()
         # 显示屏幕
