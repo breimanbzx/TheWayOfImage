@@ -40,5 +40,5 @@ git config --global user.email "303295018@qq.com"
 
 git checkout 分支名   # 切换分支
 git fetch origin    # 更新本地仓库
-git merge  分支名     # 将拉去到的代码合并到本地
+git merge  分支名     # 将拉下来的代码合并到本地
 
