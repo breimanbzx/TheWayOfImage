@@ -21,6 +21,14 @@ git add .
 git commit -m "修改git文档"
 git push origin main
 
+在仓库中添加新文件夹
+cd 要添加的文件夹
+git init
+git remote add origin git@github.com:breimanbzx/TheWayOfImage.git
+git add .
+git commit -m "Initial commit"
+git push -u origin master
+
 
 二、git准备：
 下载git后
